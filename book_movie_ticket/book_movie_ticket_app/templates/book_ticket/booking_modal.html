@@ -1,0 +1,188 @@
+{% load crispy_forms_tags %}
+<div class="modal fade" id="bookingModal{{ movie.id }}" tabindex="-1" aria-labelledby="bookingModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="bookingModalLabel">Đặt Vé Xem Phim</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true" class="text-white">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Biểu đồ chỗ ngồi -->
+                <div class="seat-chart">
+                    <div class="screen"></div>
+                    <div class="row m-3 seats" id="seat-buttons{{ movie.id }}"></div>
+                    <ul class="showcase">
+                        <li>
+                          <div class="case"></div>
+                          <small>Ghế trống</small>
+                        </li>
+                        <li>
+                          <div class="case selected "></div>
+                          <small>Đã chọn</small>
+                        </li>
+                        <li>
+                          <div class="case occupied"></div>
+                          <small>Đã được đặt</small>
+                        </li>
+                    </ul> 
+                </div>
+                <!-- Form đặt vé -->
+                <form id="bookingForm{{ movie.id }}" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="movieSelection">Phim:</label>
+                        <input type="text" class="form-control" value="{{ movie.title }}" disabled>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6 mb-0" id="roomSelection{{ movie.id }}">
+                            {{ form.room|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-md-6 mb-0">
+                            {{ form.date_time|as_crispy_field }}
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6 mb-0"  id="typeSelection{{ movie.id }}">
+                            {{ form.type|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-md-6 mb-0">
+                            <label>Giá vé:</label>
+                            <input type="text" class="form-control" id="price{{ movie.id }}" value="" disabled>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6 mb-0"  id="typeSelection{{ movie.id }}">
+                            <label>Số lượng vé:</label>
+                            <input type="number" class="form-control" name="quantity{{ movie.id }}" value="1" min="1" max="99">
+                        </div>
+                        <div class="form-group col-md-6 mb-0">
+                            <label>Tổng tiền:</label>
+                            <input type="text" class="form-control" id="totalPrice{{ movie.id }}" value="" disabled>
+                        </div>
+                    </div>
+                    <div class="form-row mt-2">
+                        <button type="submit" class="btn btn-primary m-2" id="bookingButton{{ movie.id }}">Đặt vé</button>
+                        <button type="button" class="btn btn-primary m-2" data-dismiss="modal">Hủy</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer" style="justify-content: center;">
+                <div id="bookingError{{ movie.id }}"></div> 
+            </div>
+        </div>
+    </div>
+</div>
+<!-- JavaScript để xử lý chọn chỗ và đặt vé -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+$(document).ready(function() {
+    var movie_id = "{{ movie.id }}";
+    $("#roomSelection{{ movie.id }}").change(function() {
+        var url = "{% url 'get_seats' %}";
+        var roomId = $("#roomSelection{{ movie.id }} select").val(); 
+        console.log(roomId);
+        $.ajax({
+            url: url,
+            data: {
+                room_id: roomId 
+            },
+            success: function (data) {
+                $("#seat-buttons{{ movie.id }}").html(data);
+            }
+        });
+    });
+    $("#typeSelection{{ movie.id }}").change(function() {
+        var type = $("#typeSelection{{ movie.id }} select").val(); 
+        console.log(type);
+        var price = (type === 'Adult') ? 100000 : 50000;
+        var formattedPrice = price.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+        console.log(formattedPrice);
+        $("#price{{ movie.id }}").val(formattedPrice);
+        var quantity = parseInt($("input[name='quantity{{ movie.id }}']").val()); 
+        var totalPrice = quantity * price;
+        var formattedTotalPrice = totalPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+        $("#totalPrice{{ movie.id }}").val(formattedTotalPrice);
+        console.log("Tổng tiền:", formattedTotalPrice);
+    });
+    $("input[name='quantity{{ movie.id }}']").change(function() {
+        var type = $("#typeSelection{{ movie.id }} select").val();
+        var price = (type === 'Adult') ? 100000 : 50000;
+        var quantity = parseInt($(this).val());
+        var totalPrice = quantity * price;
+        var formattedTotalPrice = totalPrice.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+        $("#totalPrice{{ movie.id }}").val(formattedTotalPrice);
+    });
+
+    $("#seat-buttons{{ movie.id }}").on("click", ".seat", function() {
+        var selectedSeatIds = [];
+        var quantity = parseInt($("input[name='quantity{{ movie.id }}']").val());
+
+        $(".seat.selected").each(function() {
+            var seatId = $(this).data("seat-id");
+            selectedSeatIds.push(seatId);
+        });
+
+        var seatId = $(this).data("seat-id");
+        var index = $.inArray(seatId, selectedSeatIds);
+
+        if (index !== -1) {
+            $(this).removeClass("selected");
+            selectedSeatIds.splice(index, 1); // Loại bỏ ghế nếu đã được chọn trước đó
+        } else {
+            if (selectedSeatIds.length >= quantity) { 
+                alert("Số lượng vé không đủ!");
+                return;
+            }
+            $(this).addClass("selected");
+            selectedSeatIds.push(seatId); // Thêm ghế nếu chưa được chọn trước đó
+        }
+
+        $("#selected-quantity{{ movie.id }}").text(selectedSeatIds.length);
+        console.log("Selected Seat IDs:", selectedSeatIds);
+    });
+    // Xử lý sự kiện khi submit biểu mẫu
+    $("#bookingForm{{ movie.id }}").submit(function(event) {
+        event.preventDefault(); // Ngăn chặn việc gửi biểu mẫu mặc định
+        var csrftoken = $("[name=csrfmiddlewaretoken]").val();
+        var roomId = $("#roomSelection{{ movie.id }} select").val();
+        var type = $("#typeSelection{{ movie.id }} select").val();
+        var date_time = $("#bookingForm{{ movie.id }} input[name='date_time']").val();
+        var quantity = parseInt($("input[name='quantity{{ movie.id }}']").val());
+        var user = "{{ user.id }}";
+        var selectedSeatIds = $(".seat.selected").map(function() {
+            return $(this).data("seat-id");
+        }).get();
+        if (selectedSeatIds.length < quantity) {
+            $("#bookingError{{ movie.id }}").html('<p class="text-danger">Thông báo: Đặt vé thất bại! Số lượng ghế được chọn không trùng khớp với số lượng vé!</p>');
+            return;
+        }
+        $("#bookingError{{ movie.id }}").empty();
+        $.ajax({
+            url: "{% url 'user_booking' %}",
+            type: "POST",
+            data: {
+                room_id: roomId,
+                type: type,
+                date_time: date_time,
+                user: user,
+                movie_id: movie_id,
+                selected_seats: selectedSeatIds,
+                quantity: quantity,
+                csrfmiddlewaretoken: csrftoken,
+            },
+            success: function(data) {
+                if (data === "Success") {
+                    $("#bookingError{{ movie.id }}").html('<p class="text-success">Thông báo: Đặt vé thành công! bạn sẽ được chuyển hướng sau 3 giây!</p>');
+                    setTimeout(function() {
+                        window.location.href = '/trang-chu/';
+                    }, 2500);
+                } else {
+                    $("#bookingError{{ movie.id }}").html('<p class="text-danger">Thông báo: Đặt vé thất bại! Vui lòng thử lại sau!</p>');
+                }   
+            }
+        });
+    });
+});
+</script>

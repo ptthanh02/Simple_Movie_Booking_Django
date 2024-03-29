@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ... các thẻ meta và liên kết CSS khác ... -->
+    <title>Trang Đặt Vé Xem Phim</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../static/css/base.css">
+    <link rel="stylesheet" href="../static/css/modal.css">
+</head>
+<body>
+    <header>
+        <!-- Custom Navigation bar -->
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand" style="color: #fff;" href="{% url 'homepage' %}">CinemaPlus</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item {% if request.path == '/trang-chu/' %}active{% endif %}">
+                            <a class="nav-link" href="{% url 'homepage' %}">Trang Chủ</a>
+                        </li>
+                        <li class="nav-item {% if request.path == '/phim/' %}active{% endif %}">
+                            <a class="nav-link" href="{% url 'movie_list' %}">Phim</a>
+                        </li>
+                        <li class="nav-item {% if request.path == '/lich-chieu/' %}active{% endif %}">
+                            <a class="nav-link" href="{% url 'movie_schedule' %}" >Lịch Chiếu</a>
+                        </li>
+                        <li class="nav-item {% if request.path == '/lien-he/' %}active{% endif %}">
+                            <a class="nav-link" href="{% url 'contact' %}">Liên Hệ</a>
+                        </li>
+                    </ul>
+                    <form class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Tìm kiếm" aria-label="Search">
+                        <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Tìm kiếm</button>
+                    </form>
+                    {% comment %} {{ request.user}} {% endcomment %}
+                    {% if request.user.is_anonymous %}
+                        <ul class="navbar-nav ml-3">
+                            <a class="nav-link" href="#" data-toggle="modal" data-target="#loginModal">Đăng Nhập</a>
+                        </ul>   
+                    {% else %}
+                        <ul class="navbar-nav ml-3">
+                            <a class="nav-link" href="{% url 'user_logout' %}">Đăng Xuất</a>
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        {% include "home\login_modal.html" %}
+        {% include "home\register_modal.html" %}
+        {% block content %}
+        <!-- Main content will be injected here -->
+        {% endblock %}
+    </main>
+
+    <footer>
+    </footer>
+    {% block script %}
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        // loginModal
+        $(document).ready(function() {
+        // Kiểm tra nếu có thông báo lỗi và mở lại modal
+        {% if show_login_form and messages %}
+            $('#loginModal').modal('show');
+        {% endif %}
+        });
+
+        $(document).ready(function () {
+            $("#loginModal").on("hidden.bs.modal", function (e) {
+                window.location.href = '#';
+            });
+        });
+
+        // registerModal
+        $(document).ready(function () {
+        {% if show_register_form and messages %}
+            $("#registerModal").modal("show");
+        {% endif %} 
+
+        {% if register_sucess and messages %}
+            $("#registerModal").modal("show");
+        {% endif %}
+        });
+
+        $(document).ready(function () {
+        $("#registerModal").on("hidden.bs.modal", function (e) {
+            window.location.href = '#';
+        });
+        });
+    </script>
+    {% endblock %}
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

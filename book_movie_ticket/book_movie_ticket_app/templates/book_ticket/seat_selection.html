@@ -1,0 +1,10 @@
+{% for seat in seats %}
+  {% if seat.is_available %}
+  <div class="seat" data-seat-id="{{ seat.id }}">
+    <span class="seat-number">{{ seat.room.name }}{% if seat.seat_number < 10 %}0{% endif %}{{ seat.seat_number }}</span></div>
+  {% elif seat.is_available == False %}
+  <div class="seat occupied">
+    {% comment %} <span class="seat-number">{{ seat.room.name }}{% if seat.seat_number < 10 %}0{% endif %}{{ seat.seat_number }}</span> {% endcomment %}
+  </div>
+  {% endif %}
+{% endfor %}

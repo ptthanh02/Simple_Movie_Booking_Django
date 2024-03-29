@@ -1,0 +1,141 @@
+.container.ticket-container {
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+.card {
+    border-radius: 0.25rem;
+    border: 1px solid #ddd;
+}
+
+.card-header {
+    padding: 1rem 1.5rem;
+    font-size: 1.25rem;
+    color: #fff;
+    background-color: #343a40;
+}
+
+.card-body {
+    padding: 1.5rem;
+    color : #000;
+}
+
+.table {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.table th,
+.table td {
+    padding: 0.75rem;
+    vertical-align: middle;
+    border-top: 1px solid #dee2e6;
+    text-align: center;
+}
+
+.page-item.active .page-link {
+    color: #ffffff;
+    background-color: #343a40;
+    border-color: #343a40;
+}
+
+.page-link {
+color: #343a40;
+}
+
+.page-link:hover {
+color: #ffffff;
+background-color: #343a40;
+border-color: #343a40;
+}
+
+.page-link:focus {
+box-shadow: 0 0 0 0.2rem rgba(52, 58, 64, 0.5);
+}
+
+.page-item.disabled .page-link {
+color: #6c757d;
+pointer-events: none;
+cursor: auto;
+background-color: #ffffff;
+border-color: #ffffff;
+}
+
+.dataTables_length .custom-select {
+background-color: #ffffff; /* Màu nền */
+border-color: #343a40; /* Màu viền */
+margin-top: 2px;
+}
+
+.dataTables_length .custom-select:hover {
+background-color: #ffffff; /* Màu nền */
+border-color: #343a40; /* Màu viền */
+}
+
+.dataTables_length .custom-select:focus {
+box-shadow: 0 0 0 0.2rem rgba(52, 58, 64, 255);
+}
+
+.dataTables_filter .form-control {
+background-color: #ffffff; /* Màu nền */
+border-color: #343a40; /* Màu viền */
+margin-right: 100px;
+margin-top: 2px;
+}
+
+.dataTables_filter .form-control:focus {
+box-shadow: 0 0 0 0.2rem rgba(52, 58, 64, 255);
+}
+
+.dataTables_info {
+color: #343a40;
+margin-top: 2px;
+}
+
+table-responsive.dataTable thead .sorting:after,
+table-responsive.dataTable thead .sorting:before,
+table-responsive.dataTable thead .sorting_asc:after,
+table-responsive.dataTable thead .sorting_asc:before,
+table-responsive.dataTable thead .sorting_asc_disabled:after,
+table-responsive.dataTable thead .sorting_asc_disabled:before,
+table-responsive.dataTable thead .sorting_desc:after,
+table-responsive.dataTable thead .sorting_desc:before,
+table-responsive.dataTable thead .sorting_desc_disabled:after,
+table-responsive.dataTable thead .sorting_desc_disabled:before {
+bottom: 0.5em;
+}
+
+.dataTables_wrapper table.dataTable td,
+.dataTables_wrapper table.dataTable th {
+text-align: center;
+font-family: "Source Code Pro", monospace;
+vertical-align: middle;
+}
+
+.a-td {
+color: #343a40;
+text-decoration: none;
+}
+
+.a-td:hover {
+color: #343a40;
+text-decoration: none;
+}
+
+.checkbox-large {
+transform: scale(1.5); /* Tăng kích thước checkbox */
+}
+
+.checkbox-large:checked {
+background-color: #343a40; /* Thay đổi màu sắc khi checkbox được chọn */
+}
+
+.checkbox-large:checked:after {
+color: #343a40; /* Thay đổi màu sắc của dấu check */
+}
+
+caption {
+caption-side: top;
+text-align: right;
+color: #343a40;
+}

@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load humanize %}
+<link rel="stylesheet" href="../static/css/book_ticket.css">
+<linkrel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css">
+<div class="container mt-5 ticket-container">
+  <div class="member-profile card">
+    <div class="card-header">
+      <h2 style = "text-align: center;">Tài Khoản Thành Viên CinemaPlus</h2>
+    </div>
+    <div class="card-body">
+      <div class="user-info">
+        <h5 class="card-title" style="font-size: 1.5rem;">Thông Tin Tài Khoản</h5>
+        <p>
+          <strong>Username:</strong> {{ user.username }}
+        </p>
+        <p>
+          <strong>Họ Tên:</strong> {{ user.name }}
+        </p>
+        <p>
+          <strong>Tuổi:</strong> {{ user.age }}
+        </p>
+      </div>
+      <hr>
+      <div class="table-responsive">
+        <h5 class="card-title">Các Vé Đã Đặt</h5>
+        <table class="table table-sm table-striped table-bordered" id="ticket-table">
+          <thead>
+            <tr class="thead-dark">
+              <th scope="col">ID</th>
+              <th scope="col">Tên Phim</th>
+              <th scope="col">Suất Chiếu</th>
+              <th scope="col">Phòng Chiếu</th>
+              <th scope="col">Ghế</th>
+              <th scope="col">Loại Vé</th>
+              <th scope="col">Giá</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for ticket in user_tickets %}
+              <tr>
+                <td>{{ ticket.id }}</td>
+                <td>{{ ticket.movie.title }}</td>
+                <td>{{ ticket.date_time }}</td>
+                <td>{{ ticket.room.name }}</td>
+                <td>{{ ticket.room.name }}{% if ticket.seat.seat_number < 10 %}0{% endif %}{{ ticket.seat.seat_number }}</td>
+                <td>
+                  {% if ticket.type == 'Adult' %}Người Lớn{% else %}Trẻ Em{% endif %}
+                </td>
+                <td>{{ ticket.price|intcomma }}₫</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
+<script>
+  $(document).ready(function () {
+    $('#ticket-table').DataTable({
+      lengthMenu: [5, 15, 25, 50],
+      language: {
+        search: "Tìm kiếm:",
+        lengthMenu: "Hiển thị _MENU_ vé",
+        info: "Hiển thị vé _START_ đến vé thứ _END_ của tổng _TOTAL_ vé",
+        paginate: {
+          first: "Đầu",
+          last: "Cuối",
+          next: "Sau",
+          previous: "Trước",
+        },
+        emptyTable: "Bạn chưa đặt vé nào!",
+        infoEmpty: "Không có dữ liệu",
+        infoFiltered: "(lọc từ tổng _MAX_ vé)",
+      },
+      zeroRecords: "Không tìm thấy dữ liệu",
+      infoEmpty: "Không có dữ liệu",
+      loadingRecords: "Đang tải dữ liệu...",
+      processing: "Đang xử lý...",
+      aria: {
+        sortAscending: ": Sắp xếp tăng dần",
+        sortDescending: ": Sắp xếp giảm dần",
+      },
+      columnDefs: [    
+        { orderable: true, targets: [0, 2, 3, 4, 5, 6] },
+      ],
+      order: [[0, "asc"]],
+    });
+  });
+</script>
+{% endblock %}

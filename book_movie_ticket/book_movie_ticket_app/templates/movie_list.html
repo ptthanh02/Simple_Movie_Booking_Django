@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<link rel="stylesheet" href="../static/css/booking.css">
+<div class="container mt-5">
+    <h1 class="text-center text-light mb-4">Phim Hot</h1>
+    <div class="row">
+        {% if movies|length == 0 %}
+        <div class="col-md-12">
+            <h3 class="text-light text-center">Hiện tại không có phim nào</h3>
+        </div>
+        {% endif %}
+        {% for movie in movies %}
+        <div class="col-md-4 mb-3">
+            <div class="card bg-secondary text-light">
+                <img class="card-img-top" src="{{ movie.poster.url }}" alt="Movie Poster" style="height: 500px; weight: 300px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ movie.title }}</h5>
+                    <p class="card-text" id="movieDescription" style="font-weight: lighter;">{{ movie.description }}</p>
+                    <p class="card-text"><small class="text-muted">Ngày chiếu: {{ movie.release_date|date:"d/m/Y" }}</small></p>
+                    {% if request.user.is_anonymous %}
+                        <a class="btn btn-dark book-now-btn" data-toggle="modal" data-target="#loginModal" href="#">Đặt vé</a>
+                    {% else %}
+                        <a class="btn btn-dark book-now-btn" data-toggle="modal" data-target="#bookingModal{{ movie.id }}">Đặt vé</a>
+                    {% endif %}
+                    <a href="#" class="btn btn-dark">Chi tiết</a>
+                </div>
+            </div>
+        </div>
+        {% include 'book_ticket\booking_modal.html' %}
+        <script>
+            $(document).ready(function() {
+              $(".container").on("click", ".book-now-btn", function() {
+                var modalId = $(this).data("target");
+                $(modalId).modal("show");
+                });
+            });
+            $(document).ready(function () {
+                var modalId = $(this).data("target");
+                $(modalId).on("hidden.bs.modal", function (e) {
+                    window.location.href = '#';
+                });
+            });
+        </script>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

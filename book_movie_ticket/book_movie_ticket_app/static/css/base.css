@@ -1,0 +1,139 @@
+
+@import url("https://fonts.googleapis.com/css?family=Source+Code+Pro:200");
+  
+body {
+    background-image: url("../imgs/wallpaperflare.com_wallpaper.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-blend-mode: darken;
+    background-color: rgba(0, 0, 0, 0.6);
+    font-family: "Source Code Pro", monospace;
+    /* font-family: "arial"; */
+    font-weight: bolder;
+    color: #fff;
+    margin: 0;  
+    padding: 0;
+    box-sizing: border-box;
+    /* display: flex; */
+    -webkit-animation: slidein 100s;
+    animation: slidein 100s;
+  
+    -webkit-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+  
+    -webkit-animation-direction: alternate;
+    animation-direction: alternate;
+}
+  
+@-webkit-keyframes slidein {
+    from {
+      background-position: top;
+      background-size: 3000px;
+    }
+    to {
+      background-position: -100px 0px;
+      background-size: 2750px;
+    }
+}
+  
+@keyframes slidein {
+    from {
+      background-position: top;
+      background-size: 3000px;
+    }
+    to {
+      background-position: -100px 0px;
+      background-size: 2750px;
+    }
+}
+
+
+/* BEGIN: Navbar Styles */
+.navbar {
+    background-color: #1a1a1a;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.navbar li {
+    margin: 0 10px;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: rgb(167, 162, 162);
+}
+
+.navbar a:hover {
+    color: #ffffff;
+}
+
+.nav-item.active a {
+    color: #ffffff;
+}
+
+.navbar .brand {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #ffffff;
+}
+/* END: Navbar Styles */
+
+/* BEGIN: Footer Styles */
+.footer {
+    background-color: #f8f8f8;
+    padding: 10px;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+
+.footer p {
+    margin: 0;
+}
+
+.footer a {
+    text-decoration: none;
+    color: #333;
+}
+
+.footer a:hover {
+    color: #ff6600;
+}
+
+/* END: Footer Styles */
+
+/* BEGIN: Button Styles */
+.btn-dark {
+    margin: 2px;
+  }
+
+.btn-dark:hover {
+    background-color: #343a40;
+    color: white;
+  }
+
+.btn-light {
+    margin: 2px;
+  }
+
+.btn-light:hover {
+    background-color: #f8f9fa;
+    color: black;
+  }
+/* END: Button Styles */

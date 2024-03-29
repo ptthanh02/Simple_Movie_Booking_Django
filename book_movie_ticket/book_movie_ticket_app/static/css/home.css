@@ -1,0 +1,9 @@
+.centered-btn {
+    display: block;
+    width: max-content;
+    font-size: 1.5em; /* Tăng kích cỡ chữ */
+    padding: 10px 20px; /* Điều chỉnh kích thước nút */
+    border-radius: 25px; /* Cạnh bo tròn */
+    font-family: "arial"; /* Kiểu chữ */
+    font-weight: bold;
+}
