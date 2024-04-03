@@ -68,31 +68,31 @@ http://localhost:8000/
 
 1. Trang chủ:
 
-![Trang chủ](github_images\homepage.png)
+![Trang chủ](github_images/homepage.png)
 
 2. Đăng nhập:
 
-![Đăng nhập](github_images\login.png)
+![Đăng nhập](github_images/login.png)
 
 3. Đăng ký:
 
-![Đăng ký](github_images\register.png)
+![Đăng ký](github_images/register.png)
 
 4. Trang danh sách phim:
 
-![Trang danh sách phim](github_images\movie_list.gif)
+![Trang danh sách phim](github_images/movie_list.gif)
 
 5. Trang đặt vé:
 
-![Trang đặt vé](github_images\book_ticket.png)
+![Trang đặt vé](github_images/book_ticket.png)
 
 6. Trang danh sách vé đã đặt:
 
-![Trang danh sách vé đã đặt](github_images\booked_tickets.png)
+![Trang danh sách vé đã đặt](github_images/booked_tickets.png)
 
 7. Trang admin quản lý hệ thống:
 
-![Trang admin quản lý hệ thống](github_images\admin.png)
+![Trang admin quản lý hệ thống](github_images/admin.png)
 
 ## Công nghệ sử dụng
 
