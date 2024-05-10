@@ -31,7 +31,7 @@ python -m venv ten_env
 3. Kích hoạt môi trường ảo:
 
 ```bash
-source ten_env/bin/activate
+ten_env\Scripts\activate
 ```
 
 4. Cài đặt các thư viện cần thiết:
